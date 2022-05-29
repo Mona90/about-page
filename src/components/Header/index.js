@@ -7,15 +7,22 @@ import {IoMdMenu} from 'react-icons/io'
 import axios from 'axios';
 
 function Header(props) {
-	console.log('test props from header', props)
-	const [data, setData]= useState([])
+	const [tempData, setTempData]= useState([])
 	useEffect(()=>{
 		
 		const fetchData = async() => {
 			try{
-				const res = await axios.get(props.apiURL)
-	            console.log('axios result', res.data)
-					setData(res.data)
+				if(props.lat === undefined || props.lang === undefined ){
+					const res = await axios.get('https://api.openweathermap.org/data/2.5/weather?lat=26.96546281915211&lon=33.883077697384714&appid=f1130b3524feefd0549671bf69edc578')
+	           		console.log('axios result defult', res.data.main.temp)
+					   setTempData(res.data.main.temp)
+				}else{
+					const res = await axios.get(props.apiURL)
+					console.log('axios result props', res.data.main.temp)
+					setTempData(res.data.main.temp)
+	
+				}
+				
 			}catch(error){
 			console.log(error)
 			}
@@ -25,9 +32,8 @@ function Header(props) {
 	},[])
 	
  
-console.log('test save data', data)
-const temp = data.main.temp
-const celsiusTemp = ((temp -32)/1.8).toFixed()
+let celsiusTemp = ((tempData -32)/1.8).toFixed()
+
   return (
     <Head>
 		<div className="container">
@@ -39,7 +45,7 @@ const celsiusTemp = ((temp -32)/1.8).toFixed()
 					<div className="d-flex justify-content-end">
 							<div className='icon me-3'>
 								<BsCloudSun style={{fontSize:27}}/>
-							{data && <span>{celsiusTemp}&deg;C</span>}
+							{celsiusTemp !== undefined  ? <span>{celsiusTemp}&deg;C</span>:null}
 
 							</div>
 							<div className='icon phone me-3'>
