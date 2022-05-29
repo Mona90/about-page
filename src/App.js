@@ -1,20 +1,19 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import About from './pages/About';
-// import Header from './components/Header';
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 
 function App() {
-  
+
   return (
     <BrowserRouter>
        <Routes>
          <Route path="/" index element={<About/>}/>
        </Routes>
     </BrowserRouter>
-    // <>
-    // <Header/>
-    // </>
     
+
   );
 }
 
